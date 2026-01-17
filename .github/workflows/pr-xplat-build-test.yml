@@ -1,0 +1,77 @@
+﻿name: PR Cross-platform Build Test
+permissions: 
+  contents: read
+  
+on:
+  pull_request:
+    branches: [ "master" ]
+    
+jobs:
+  cross-platform-build:
+    runs-on: ${{ matrix.os }}
+    
+    strategy:
+      fail-fast: true
+      
+      matrix:
+        build-tool: [ ninja ]
+        compiler: [ mingw64, gcc ]
+        architecture: [ x64, x86 ]
+        os: [ ubuntu-latest, windows-latest ]
+        build-type: [ debug, release ]
+        exclude:
+          - os: windows-latest
+            compiler: gcc
+          - os: ubuntu-latest
+            compiler: mingw64
+            
+    steps:
+      - uses: actions/checkout@v4
+        
+      - name: Initialise Variables
+        shell: bash
+        run: |
+          echo "current-build-tool=${{ matrix.build-tool }}" >> $GITHUB_ENV
+          echo "current-compiler=${{ matrix.compiler }}" >> $GITHUB_ENV
+          echo "current-architecture=${{ matrix.architecture }}" >> $GITHUB_ENV
+          if [ ${{ matrix.os }} == "ubuntu-latest" ]; then
+            echo "current-os=linux" >> $GITHUB_ENV
+          else
+            echo "current-os=win" >> $GITHUB_ENV
+          fi
+          echo "current-build-type=${{ matrix.build-type }}" >> $GITHUB_ENV
+          
+      - name: Initialise Windows Runner
+        if: runner.os == 'Windows'
+        shell: bash
+        run: |
+          if [[ "${{ matrix.architecture }}" == "x64" ]]; then
+            choco install mingw --no-progress
+            echo "C:\ProgramData\mingw64\mingw64\bin" >> $GITHUB_PATH
+          else
+            choco install mingw --x86 --no-progress
+            echo "C:\ProgramData\mingw64\mingw32\bin" >> $GITHUB_PATH
+          fi
+          
+          choco install ninja --no-progress
+          choco install cmake --no-progress
+          
+      - name: Initialise Linux Runner
+        if: runner.os == 'Linux'
+        shell: bash
+        run: |
+          sudo apt remove cmake -y
+          sudo pip install cmake --upgrade
+          sudo apt install gcc-multilib
+          sudo apt install g++-multilib
+          
+      - name: Configure CMake
+        shell: bash
+        run: 
+          cmake -S "${{ github.workspace }}"
+          --preset ${{ env.current-build-tool }}-${{ env.current-compiler }}-${{ env.current-architecture }}-${{ env.current-os }}
+          
+      - name: Build
+        run: 
+          cmake --build 
+          --preset ${{ env.current-build-tool }}-${{ env.current-compiler }}-${{ env.current-architecture }}-${{ env.current-os }}-${{ env.current-build-type }}

@@ -1,0 +1,75 @@
+﻿name: Tagged Release Workflow
+permissions: 
+  contents: read
+  
+on:
+  push:
+    branches: [ "master" ]
+    tags:
+      - "v*"
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      fail-fast: false
+      
+      matrix:
+        build-tool: [ ninja ]
+        compiler: [ mingw64, gcc ]
+        architecture: [ x64, x86 ]
+        target: [ win, linux ]
+        build-type: [ release ]
+        exclude:
+          - target: windows
+            compiler: gcc
+          - target: ubuntu
+            compiler: mingw64
+
+    steps:
+      - uses: actions/checkout@v4
+        
+      - name: Initialise Variables
+        shell: bash
+        run: |
+          echo "current-build-tool=${{ matrix.build-tool }}" >> $GITHUB_ENV
+          echo "current-compiler=${{ matrix.compiler }}" >> $GITHUB_ENV
+          echo "current-architecture=${{ matrix.architecture }}" >> $GITHUB_ENV
+          echo "current-os=${{ matrix.target }}" >> $GITHUB_ENV
+          echo "current-build-type=${{ matrix.build-type }}" >> $GITHUB_ENV
+          echo "build-step-title=${{ env.current-build-tool }}-${{ env.current-compiler }}-${{ env.current-architecture }}-${{ env.current-os }}-${{ env.current-build-type }}" >> $GITHUB_ENV
+          echo "configure-step-title=${{ env.current-build-tool }}-${{ env.current-compiler }}-${{ env.current-architecture }}-${{ env.current-os }}" >> $GITHUB_ENV
+          echo "release-title=${{ env.current-architecture }}-${{ env.current-os }}-${{ env.current-build-type }}" >> $GITHUB_ENV
+          echo "build
+          
+      - name: Initialise Runner
+        shell: bash
+        run: |
+          sudo apt remove cmake -y
+          sudo pip install cmake --upgrade
+          if [ "${{ matrix.target }}" == "win" ]; then
+            if [ "${{ matrix.architecture }}" == "x64"]; then
+              sudo apt install gcc-mingw-w64-x86-64
+              sudo apt install g++-mingw-w64-x86-64
+            else
+              sudo apt install gcc-mingw-w64-i686
+              sudo apt install g++-mingw-w64-i686
+            fi
+            sudo apt install zip
+          else
+            sudo apt install gcc-multilib
+            sudo apt install g++-multilib
+          fi
+          
+      - name: Configure CMake
+        shell: bash
+        run: cmake -S "${{ github.workspace }}" --preset ${{ env.configure-step-title }}
+          
+      - name: Build
+        run: cmake --build --preset ${{ env.build-step-title }}
+      
+      - name: Package Build
+        shell: bash
+        run: |
+          tar czf ${{ env.release-title }}.tar.gz ${{ github.workspace }}/build/${{ env.configure-step-title }}

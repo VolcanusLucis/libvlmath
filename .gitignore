@@ -39,3 +39,10 @@
 
 # debug information files
 *.dwo
+
+# .idea
+.idea/
+
+# CMake
+CMakeUserPresets.json
+out/

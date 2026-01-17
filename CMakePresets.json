@@ -1,0 +1,129 @@
+﻿{
+  "version": 10,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 24,
+    "patch": 0
+  },
+  
+  "configurePresets": [
+    {
+      "name": "base",
+      "hidden": true,
+      "binaryDir": "${sourceDir}/build/${presetName}/",
+      "installDir": "${sourceDir}/install/${presetName}/${sourceDirName}"
+    },
+    {
+      "name": "ninja-multi-config",
+      "description": "Ninja Multi-Config Generator",
+      "hidden": true,
+      "generator": "Ninja Multi-Config",
+      "inherits": ["base"]
+    },
+
+    {
+      "name": "gcc-x64-linux",
+      "description": "GCC x64 Linux Toolchain",
+      "toolchainFile": "${sourceDir}/toolchains/gcc-x64-linux.cmake",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      }
+    },
+    {
+      "name": "gcc-x86-linux",
+      "description": "GCC x86 Linux Toolchain",
+      "toolchainFile": "${sourceDir}/toolchains/gcc-x86-linux.cmake",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      }
+    },
+    {
+      "name": "mingw64-x64-win",
+      "description": "MinGW64 x64 Windows Toolchain",
+      "toolchainFile": "${sourceDir}/toolchains/mingw64-x64-win.cmake"
+    },
+    {
+      "name": "mingw64-x86-win",
+      "description": "MinGW64 x86 Windows Toolchain",
+      "toolchainFile": "${sourceDir}/toolchains/mingw64-x86-win.cmake"
+    },
+    
+    {
+      "name": "ninja-mingw64-x64-win",
+      "displayName": "MinGW64 Windows x64",
+      "inherits": ["ninja-multi-config", "mingw64-x64-win"]
+    },
+    {
+      "name": "ninja-mingw64-x86-win",
+      "displayName": "MinGW64 Windows x86",
+      "inherits": ["ninja-multi-config", "mingw64-x86-win"]
+    },
+
+    {
+      "name": "ninja-gcc-x64-linux",
+      "displayName": "GCC Linux x64",
+      "inherits": ["ninja-multi-config", "gcc-x64-linux"]
+    },
+    {
+      "name": "ninja-gcc-x86-linux",
+      "displayName": "GCC Linux x86",
+      "inherits": ["ninja-multi-config", "gcc-x86-linux"]
+    }
+  ],
+  
+  "buildPresets": [
+    {
+      "name": "ninja-mingw64-x64-win-debug",
+      "displayName": "Debug - Windows x64 MinGW64",
+      "configurePreset": "ninja-mingw64-x64-win",
+      "configuration": "Debug"
+    },
+    {
+      "name": "ninja-mingw64-x64-win-release",
+      "displayName": "Release - Windows x64 MinGW64",
+      "configurePreset": "ninja-mingw64-x64-win",
+      "configuration": "Release"
+    },
+    {
+      "name": "ninja-mingw64-x86-win-debug",
+      "displayName": "Debug - Windows x86 MinGW64",
+      "configurePreset": "ninja-mingw64-x86-win",
+      "configuration": "Debug"
+    },
+    {
+      "name": "ninja-mingw64-x86-win-release",
+      "displayName": "Release - Windows x86 MinGW64",
+      "configurePreset": "ninja-mingw64-x86-win",
+      "configuration": "Release"
+    },
+
+    {
+      "name": "ninja-gcc-x64-linux-debug",
+      "displayName": "Debug - Linux x64 GCC",
+      "configurePreset": "ninja-gcc-x64-linux",
+      "configuration": "Debug"
+    },
+    {
+      "name": "ninja-gcc-x64-linux-release",
+      "displayName": "Release - Linux x64 GCC",
+      "configurePreset": "ninja-gcc-x64-linux",
+      "configuration": "Release"
+    },
+    {
+      "name": "ninja-gcc-x86-linux-debug",
+      "displayName": "Debug - Linux x86 GCC",
+      "configurePreset": "ninja-gcc-x86-linux",
+      "configuration": "Debug"
+    },
+    {
+      "name": "ninja-gcc-x86-linux-release",
+      "displayName": "Release - Linux x86 GCC",
+      "configurePreset": "ninja-gcc-x86-linux",
+      "configuration": "Release"
+    }
+  ]
+}
