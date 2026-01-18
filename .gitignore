@@ -45,4 +45,5 @@
 
 # CMake
 CMakeUserPresets.json
-out/
+build/
+install/

@@ -1,4 +1,4 @@
-﻿add_library(${PROJECT_NAME} STATIC
+﻿add_library(${PROJECT_NAME}
         matrix.cpp
 )
 
