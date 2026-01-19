@@ -8,8 +8,6 @@ on:
     
 jobs:
   cross-platform-build:
-    runs-on: ${{ matrix.os }}
-    
     strategy:
       fail-fast: true
       
@@ -25,11 +23,10 @@ jobs:
           - target: linux
             compiler: mingw64
             
-    steps:        
-      - uses: VolcanusLucis/.github/.github/workflows/build-cmake-project-presets.yml@master
-        with:
-          architecture: ${{ matrix.architecture }}
-          build-tool: ${{ matrix.build-tool }}
-          build-type: ${{ matrix.build-type }}
-          compiler: ${{ matrix.compiler }}
-          target: ${{ matrix.target }}
+    uses: VolcanusLucis/.github/.github/workflows/build-cmake-project-presets.yml@master
+    with:
+      architecture: ${{ matrix.architecture }}
+      build-tool: ${{ matrix.build-tool }}
+      build-type: ${{ matrix.build-type }}
+      compiler: ${{ matrix.compiler }}
+      target: ${{ matrix.target }}
