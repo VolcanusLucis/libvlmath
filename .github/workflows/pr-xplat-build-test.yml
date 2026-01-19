@@ -1,4 +1,4 @@
-﻿name: PR Cross-platform Build Test
+﻿name: Cross-platform Builds
 permissions: 
   contents: read
   
