@@ -20,9 +20,9 @@ jobs:
         target: [ win, linux ]
         build-type: [ debug, release ]
         exclude:
-          - os: windows-latest
+          - target: win
             compiler: gcc
-          - os: ubuntu-latest
+          - target: linux
             compiler: mingw64
             
     steps:        
