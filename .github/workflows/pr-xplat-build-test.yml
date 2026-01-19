@@ -23,13 +23,13 @@ jobs:
           - target: linux
             compiler: mingw64
             
-    uses: VolcanusLucis/.github/.github/workflows/build-cmake-project-presets.yml@master
+    uses: VolcanusLucis/.github/.github/workflows/build-cmake-project-presets.yml@bug/5-architecture-switch-fails-to-check-for-x64
     with:
-      architecture: '${{ matrix.architecture }}'
-      build-tool: '${{ matrix.build-tool }}'
-      build-type: '${{ matrix.build-type }}'
-      compiler: '${{ matrix.compiler }}'
-      target: '${{ matrix.target }}'
+      architecture: ${{ matrix.architecture }}
+      build-tool: ${{ matrix.build-tool }}
+      build-type: ${{ matrix.build-type }}
+      compiler: ${{ matrix.compiler }}
+      target: ${{ matrix.target }}
 
   build-all:
     if: always()
