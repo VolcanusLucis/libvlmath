@@ -1,16 +1,27 @@
-﻿name: Cross-platform Builds
+﻿name: Cross-platform Builds Autocomplete
+permissions:
+  contents: read
+  
 on:
   pull_request:
-    branches-ignore: [ 'master' ]
     paths-ignore: 
       - 'libvlmath/**'
       - 'toolchains/**'
       - 'CMake**.**'
     
 jobs:
+  build:
+    uses: VolcanusLucis/.github/.github/workflows/build-cmake-project-presets.yml@master
+    with:
+      architecture: ''
+      build-tool: ''
+      build-type: ''
+      compiler: ''
+      target: ''
+      bypass: true
+      
   build-all:
-    permissions:
-      contents: none
+    if: always()
     runs-on: ubuntu-latest
     steps:
       - run: echo "No builds needed!"

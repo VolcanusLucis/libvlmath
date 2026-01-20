@@ -27,7 +27,7 @@ jobs:
           - language: actions
             build-mode: none
     
-    uses: VolcanusLucis/.github/.github/workflows/shared-codeql.yml@feature/7-add-shared-codeql-workflow
+    uses: VolcanusLucis/.github/.github/workflows/shared-codeql.yml@master
     with:
       language: ${{ matrix.language }}
       build-mode: ${{ matrix.build-mode }}
