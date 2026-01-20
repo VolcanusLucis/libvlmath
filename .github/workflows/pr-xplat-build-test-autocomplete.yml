@@ -1,0 +1,16 @@
+﻿name: Cross-platform Builds
+on:
+  pull_request:
+    branches-ignore: [ 'master' ]
+    paths-ignore: 
+      - 'libvlmath/**'
+      - 'toolchains/**'
+      - 'CMake**.**'
+    
+jobs:
+  build-all:
+    permissions:
+      contents: none
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "No builds needed!"
