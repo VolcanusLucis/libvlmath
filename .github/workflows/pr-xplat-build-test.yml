@@ -5,6 +5,10 @@ permissions:
 on:
   pull_request:
     branches: [ 'master' ]
+    paths:
+      - 'libvlmath/**'
+      - 'toolchains/**'
+      - 'CMake**.**'
     
 jobs:
   build:
