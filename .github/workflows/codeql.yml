@@ -7,22 +7,31 @@ on:
     
 jobs:
   codeql:
+    permissions:
+      security-events: write
+      packages: read
+      
     strategy: 
       fail-fast: true
 
       matrix:
-        language: [ c-cpp, actions ]
-        build-mode: [ none, autobuild ]
-        exclude:
-        - language: c-cpp
-          build-mode: none
-        - language: actions
-          build-mode: autobuild
+        include:
+          - language: c-cpp
+            build-mode: manual
+            manual-command-list: > 
+              cmake -S . -B ./build -G "Ninja Multi-Config"
+              -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DCMAKE_CXX_FLAGS="-O3 -Wall -std=c++23"
+              
+              cmake --build ./build --config Release
+          
+          - language: actions
+            build-mode: none
     
     uses: VolcanusLucis/.github/.github/workflows/shared-codeql.yml@feature/7-add-shared-codeql-workflow
     with:
       language: ${{ matrix.language }}
       build-mode: ${{ matrix.build-mode }}
+      manual-command-list: ${{ matrix.manual-command-list }}
     
   run-codeql:
     if: always()
