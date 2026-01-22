@@ -12,6 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
+    outputs: 
+      files_found: ${{ steps.found-files.outputs.files_found }}
     
     steps:
       - uses: actions/checkout@v4
@@ -24,6 +26,7 @@ jobs:
             toolchains/**
             CMake**.**
       - shell: bash
+        id: found-files
         run: echo "files_found=${{ steps.changed-files.outputs.any_modified }}" >> $GITHUB_OUTPUT
 
   build:
@@ -61,7 +64,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: [check-files, build]
     steps:
-      - run: echo ${{ needs.check-files.outputs.files_found }}
       # https://github.com/orgs/community/discussions/26822
       - if: contains(needs.*.result, 'failure') 
           || contains(needs.*.result, 'cancelled')
