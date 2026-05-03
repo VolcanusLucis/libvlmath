@@ -3,10 +3,10 @@
 
 #include <memory>
 
-namespace maths
+namespace vl::math
 {
-    template <typename Type, std::size_t Rows, std::size_t Columns> requires (std::is_arithmetic_v<Type> && Rows > 1 &&
-        Columns >= 1)
+    template <typename Type, std::size_t Rows, std::size_t Columns>
+        requires (std::is_arithmetic_v<Type> && Rows > 1 && Columns >= 1)
     constexpr matrix<Type, Rows, Columns>::matrix()
     {
         if constexpr (Rows != Columns) return;
@@ -30,8 +30,8 @@ namespace maths
         }
     }
 
-    template <typename Type, std::size_t Rows, std::size_t Columns> requires (std::is_arithmetic_v<Type> && Rows > 1 &&
-        Columns >= 1)
+    template <typename Type, std::size_t Rows, std::size_t Columns>
+        requires (std::is_arithmetic_v<Type> && Rows > 1 && Columns >= 1)
     constexpr matrix<Type, Rows, Columns>::matrix(std::array<std::array<Type, Columns>, Rows> array)
     {
         for (std::size_t x = 0; x < Rows; x++)
@@ -43,8 +43,8 @@ namespace maths
         }
     }
 
-    template <typename Type, std::size_t Rows, std::size_t Columns> requires (std::is_arithmetic_v<Type> && Rows > 1 &&
-        Columns >= 1)
+    template <typename Type, std::size_t Rows, std::size_t Columns>
+        requires (std::is_arithmetic_v<Type> && Rows > 1 && Columns >= 1)
     constexpr matrix<Type, Rows, Columns>::matrix(const Type(&matrix)[Rows][Columns])
     {
         for (std::size_t row = 0; row < Rows; row++)
@@ -70,8 +70,8 @@ namespace maths
         return arr_[index];
     }
 
-    template <typename Type, std::size_t Rows, std::size_t Columns> requires (std::is_arithmetic_v<Type> && Rows > 1 &&
-        Columns >= 1)
+    template <typename Type, std::size_t Rows, std::size_t Columns>
+        requires (std::is_arithmetic_v<Type> && Rows > 1 && Columns >= 1)
     constexpr std::array<Type, Columns> matrix<Type, Rows, Columns>::operator[](std::size_t index) const
     {
         return arr_[index];
@@ -171,8 +171,8 @@ namespace maths
         return *this;
     }
 
-    template <typename Type, std::size_t Rows, std::size_t Columns> requires (std::is_arithmetic_v<Type> && Rows > 1 &&
-        Columns >= 1)
+    template <typename Type, std::size_t Rows, std::size_t Columns>
+        requires (std::is_arithmetic_v<Type> && Rows > 1 && Columns >= 1)
     constexpr matrix<Type, Rows, Columns>& matrix<Type, Rows, Columns>::operator*=(const Type& scalar)
     {
         for (std::size_t x = 0; x < Rows; x++)
@@ -186,8 +186,8 @@ namespace maths
         return *this;
     }
 
-    template <typename Type, std::size_t Rows, std::size_t Columns> requires (std::is_arithmetic_v<Type> && Rows > 1 &&
-        Columns >= 1)
+    template <typename Type, std::size_t Rows, std::size_t Columns>
+        requires (std::is_arithmetic_v<Type> && Rows > 1 && Columns >= 1)
     constexpr matrix<Type, Rows, Columns>& matrix<Type, Rows, Columns>::operator/=(const Type& scalar)
     {
         for (std::size_t x = 0; x < Rows; x++)
@@ -284,18 +284,16 @@ namespace maths
             return {};
         }
         
-        //https://semath.info/src/inverse-cofactor-ex4.html
         Type inverse = static_cast<Type>(1.0) / det;
         if constexpr (Rows == 2 && Columns == 2)
         {
-            return maths::matrix{{
+            return matrix {{
                 {arr_[1][1] * inverse, -arr_[0][1] * inverse},
                 {-arr_[1][0] * inverse, arr_[0][0] * inverse}
             }};
         }
         
-        // Suspiciously close to Determinant code - very boilerplate-y
-        // TODO: Move Laplace expansion to own function
+        // Laplace Expansion (slightly different from determinant)
         matrix m = {};
         for (std::size_t row = 0; row < Rows; row++)
         {

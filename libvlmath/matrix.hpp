@@ -4,8 +4,10 @@
 #include <array>
 #include <type_traits>
 
-namespace maths
+namespace vl::math
 {
+    bool test();
+    
     template <typename Type, std::size_t Rows, std::size_t Columns> 
         requires (std::is_arithmetic_v<Type> && Rows > 1 && Columns >= 1)
     class matrix

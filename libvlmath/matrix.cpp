@@ -1,5 +1,6 @@
 ﻿#include <libvlmath/matrix.hpp>
 
-namespace maths
+bool vl::math::test()
 {
+    return true;
 }
