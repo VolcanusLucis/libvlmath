@@ -18,6 +18,7 @@ endif ()
 set_target_properties(libvlmath PROPERTIES 
     PREFIX ""
     IMPORT_PREFIX ""
+    DEBUG_POSTFIX "d"
     VERSION ${PROJECT_VERSION}
     SOVERSION ${PROJECT_VERSION_MAJOR}
 )
