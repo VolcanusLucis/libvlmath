@@ -1,5 +1,8 @@
 name: CodeQL
 on:
+  push: 
+    branches: [ "master" ]
+    tags: [ '**' ]
   pull_request:
     branches: [ "master" ]
 
@@ -16,12 +19,7 @@ jobs:
       matrix:
         include:
           - language: c-cpp
-            build-mode: manual
-            manual-command-list: >
-              cmake -S . -B ./build -G "Ninja Multi-Config"
-              -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++ -DCMAKE_CXX_FLAGS="-O3 -Wall -std=c++23"
-              
-              cmake --build ./build --config Release
+            build-mode: none
 
           - language: actions
             build-mode: none
@@ -33,9 +31,8 @@ jobs:
         with:
           language: ${{ matrix.language }}
           build-mode: ${{ matrix.build-mode }}
-          manual-command-list: ${{ matrix.manual-command-list }}
   
-  run-codeql:
+  verify-codeql:
     permissions:
       contents: none
     

@@ -1,21 +1,23 @@
-cmake_minimum_required(VERSION 3.24)
-project(libvlmath)
-
-# Project is already pre-pended with lib
-set(CMAKE_SHARED_LIBRARY_PREFIX "")
-set(CMAKE_STATIC_LIBRARY_PREFIX "")
-
-add_subdirectory(${PROJECT_NAME})
-
-install(TARGETS ${PROJECT_NAME}
-        RUNTIME DESTINATION bin
-        LIBRARY DESTINATION lib
-        ARCHIVE DESTINATION lib
+cmake_minimum_required(VERSION 3.30)
+project(libvlmath 
+    VERSION 0.0.1
+    HOMEPAGE_URL "https://github.com/VolcanusLucis/libvlmath"
 )
 
-install(DIRECTORY ${PROJECT_SOURCE_DIR}/${PROJECT_NAME}
-        DESTINATION "include"
-        FILES_MATCHING
-        PATTERN "*.hpp"
-        PATTERN "*.tpp"
-)
+# VARIABLES
+
+option(libvlmath_INCLUDE_PACKAGING "Include packaging rules for libvlmath" "${PROJECT_IS_TOP_LEVEL}")
+
+# PROJECT
+
+if (DEFINED libvlmath_SHARED_LIBS)
+    set(BUILD_SHARED_LIBS ${libvlmath_SHARED_LIBS})
+endif ()
+
+add_subdirectory(libvlmath)
+
+# PACKAGING
+
+if (libvlmath_INCLUDE_PACKAGING)
+    add_subdirectory(packaging)
+endif ()

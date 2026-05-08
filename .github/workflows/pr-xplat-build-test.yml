@@ -43,6 +43,7 @@ jobs:
         compiler: [ mingw64, gcc ]
         architecture: [ x64, x86 ]
         target: [ win, linux ]
+        development-build: [ true, false ]
         build-type: [ debug, release ]
         exclude:
           - target: win
@@ -57,9 +58,10 @@ jobs:
           build-tool: ${{ matrix.build-tool }}
           build-type: ${{ matrix.build-type }}
           compiler: ${{ matrix.compiler }}
+          development-build: ${{ matrix.development-build }}
           target: ${{ matrix.target }}
 
-  build-all:
+  verify-compilation-task:
     if: always()
     runs-on: ubuntu-latest
     needs: [check-files, build]
