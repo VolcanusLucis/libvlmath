@@ -61,7 +61,7 @@ jobs:
           development-build: ${{ matrix.development-build }}
           target: ${{ matrix.target }}
 
-  build-all:
+  verify-compilation-task:
     if: always()
     runs-on: ubuntu-latest
     needs: [check-files, build]
