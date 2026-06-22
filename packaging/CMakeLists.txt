@@ -21,16 +21,10 @@ install(TARGETS libvlmath EXPORT libvlmathTargets
 
 # INSTALL EXPORT TARGETS
 
-if (BUILD_SHARED_LIBS)
-    set(libvlmath_BUILD_TYPE Shared)
-else ()
-    set(libvlmath_BUILD_TYPE Static)
-endif ()
-
 install(EXPORT libvlmathTargets
     DESTINATION ${libvlmath_INSTALL_CMAKEDIR}
     NAMESPACE VolcanusLucis::
-    FILE libvlmath${libvlmath_BUILD_TYPE}Targets.cmake
+    FILE libvlmathConfig.cmake
     COMPONENT libvlmath_Development
 )
 
@@ -41,7 +35,6 @@ write_basic_package_version_file(
 )
 
 install(FILES
-    ${CMAKE_CURRENT_SOURCE_DIR}/libvlmathConfig.cmake
     ${CMAKE_CURRENT_BINARY_DIR}/libvlmathConfigVersion.cmake
     DESTINATION ${libvlmath_INSTALL_CMAKEDIR}
     COMPONENT libvlmath_Development
@@ -101,26 +94,3 @@ if (DEFINED libvlmath_RUNTIME_BUILD AND libvlmath_RUNTIME_BUILD)
 endif ()
 
 include(CPack)
-
-cpack_add_component(libvlmath_Runtime
-    DISPLAY_NAME Runtime
-    DESCRIPTION "Shared libraries and executables"
-    REQUIRED
-    INSTALL_TYPES Full Developer Minimal
-)
-
-cpack_add_component(libvlmath_Development
-    DISPLAY_NAME Development
-    DESCRIPTION "Headers and static libraries required for building"
-    INSTALL_TYPES Full Developer
-)
-
-cpack_add_component(libvlmath_Documentation
-    DISPLAY_NAME Documentation
-    DESCRIPTION "Documentation relating to libvlmath"
-    INSTALL_TYPES Full Developer
-)
-
-cpack_add_install_type(Full)
-cpack_add_install_type(Developer DISPLAY_NAME "SDK Development")
-cpack_add_install_type(Minimal)
