@@ -13,34 +13,17 @@
       "binaryDir": "${sourceDir}/build/${presetName}"
     },
     {
-      "name": "runtime",
-      "cacheVariables": {
-        "BUILD_SHARED_LIBS": "ON",
-        "libvlmath_RUNTIME_BUILD": "YES"
-      },
-      "hidden": true
-    },
-    {
-      "name": "devel",
-      "cacheVariables": {
-        "BUILD_SHARED_LIBS": "OFF",
-        "libvlmath_RUNTIME_BUILD": "NO"
-      },
-      "hidden": true
-    },
-    {
       "name": "ninja",
       "description": "Ninja Multi-Config Generator",
       "hidden": true,
-      "generator": "Ninja Multi-Config",
-      "inherits": ["base"]
+      "generator": "Ninja Multi-Config"
     },
 
     {
-      "name": "gcc-x64-linux",
-      "description": "GCC x64 Linux Toolchain",
-      "toolchainFile": "${sourceDir}/toolchains/gcc-x64-linux.cmake",
-      "hidden": true,
+      "name": "linux-x64-gcc",
+      "description": "Linux x64 GCC Toolchain",
+      "toolchainFile": "${sourceDir}/toolchains/linux-x64-gcc.cmake",
+      "inherits": ["base", "ninja"],
       "condition": {
         "type": "equals",
         "lhs": "${hostSystemName}",
@@ -48,10 +31,10 @@
       }
     },
     {
-      "name": "gcc-x86-linux",
-      "description": "GCC x86 Linux Toolchain",
-      "toolchainFile": "${sourceDir}/toolchains/gcc-x86-linux.cmake",
-      "hidden": true,
+      "name": "linux-x86-gcc",
+      "description": "Linux x86 GCC Toolchain",
+      "toolchainFile": "${sourceDir}/toolchains/linux-x86-gcc.cmake",
+      "inherits": ["base", "ninja"],
       "condition": {
         "type": "equals",
         "lhs": "${hostSystemName}",
@@ -59,60 +42,16 @@
       }
     },
     {
-      "name": "mingw64-x64-win",
-      "description": "MinGW64 x64 Windows Toolchain",
-      "toolchainFile": "${sourceDir}/toolchains/mingw64-x64-win.cmake",
-      "hidden": true
+      "name": "win-x64-mingw64",
+      "description": "Windows x64 MinGW64 Toolchain",
+      "toolchainFile": "${sourceDir}/toolchains/win-x64-mingw64.cmake",
+      "inherits": ["base", "ninja"]
     },
     {
-      "name": "mingw64-x86-win",
-      "description": "MinGW64 x86 Windows Toolchain",
-      "toolchainFile": "${sourceDir}/toolchains/mingw64-x86-win.cmake",
-      "hidden": true
-    },
-
-    {
-      "name": "ninja-mingw64-x64-win-devel",
-      "displayName": "MinGW64 Windows x64 - Developer",
-      "inherits": ["ninja", "devel", "mingw64-x64-win"]
-    },
-    {
-      "name": "ninja-mingw64-x64-win",
-      "displayName": "MinGW64 Windows x64",
-      "inherits": ["ninja", "runtime", "mingw64-x64-win"]
-    },
-    
-    {
-      "name": "ninja-mingw64-x86-win-devel",
-      "displayName": "MinGW64 Windows x86 - Developer",
-      "inherits": ["ninja", "devel", "mingw64-x86-win"]
-    },
-    {
-      "name": "ninja-mingw64-x86-win",
-      "displayName": "MinGW64 Windows x86",
-      "inherits": ["ninja", "runtime", "mingw64-x86-win"]
-    },
-
-    {
-      "name": "ninja-gcc-x64-linux-devel",
-      "displayName": "GCC Linux x64 - Developer",
-      "inherits": ["ninja", "devel", "gcc-x64-linux"]
-    },
-    {
-      "name": "ninja-gcc-x64-linux",
-      "displayName": "GCC Linux x64",
-      "inherits": ["ninja", "runtime", "gcc-x64-linux"]
-    },
-    
-    {
-      "name": "ninja-gcc-x86-linux-devel",
-      "displayName": "GCC Linux x86 - Developer",
-      "inherits": ["ninja", "devel", "gcc-x86-linux"]
-    },
-    {
-      "name": "ninja-gcc-x86-linux",
-      "displayName": "GCC Linux x86",
-      "inherits": ["ninja", "runtime", "gcc-x86-linux"]
+      "name": "win-x86-mingw64",
+      "description": "Windows x86 MinGW64 Toolchain",
+      "toolchainFile": "${sourceDir}/toolchains/win-x86-mingw64.cmake",
+      "inherits": ["base", "ninja"]
     }
   ],
   
@@ -127,134 +66,69 @@
       "configuration": "Release",
       "hidden": true
     },
+
     {
-      "name": "mingw64-x64-win-devel",
-      "configurePreset": "ninja-mingw64-x64-win-devel",
+      "name": "linux-x64-gcc",
+      "configurePreset": "linux-x64-gcc",
       "hidden": true
     },
     {
-      "name": "mingw64-x64-win",
-      "configurePreset": "ninja-mingw64-x64-win",
-      "hidden": true
-    },
-    
-    {
-      "name": "mingw64-x86-win-devel",
-      "configurePreset": "ninja-mingw64-x86-win-devel",
+      "name": "linux-x86-gcc",
+      "configurePreset": "linux-x86-gcc",
       "hidden": true
     },
     {
-      "name": "mingw64-x86-win",
-      "configurePreset": "ninja-mingw64-x86-win",
-      "hidden": true
-    },
-    
-    {
-      "name": "gcc-x64-linux-devel",
-      "configurePreset": "ninja-gcc-x64-linux-devel",
+      "name": "win-x64-mingw64",
+      "configurePreset": "win-x64-mingw64",
       "hidden": true
     },
     {
-      "name": "gcc-x64-linux",
-      "configurePreset": "ninja-gcc-x64-linux",
-      "hidden": true
-    },
-    
-    {
-      "name": "gcc-x86-linux-devel",
-      "configurePreset": "ninja-gcc-x86-linux-devel",
-      "hidden": true
-    },
-    {
-      "name": "gcc-x86-linux",
-      "configurePreset": "ninja-gcc-x86-linux",
+      "name": "win-x86-mingw64",
+      "configurePreset": "win-x86-mingw64",
       "hidden": true
     },
 
 
     {
-      "name": "mingw64-x86-win-debug",
-      "displayName": "MinGW64 x86 Windows [Debug]",
-      "inherits": ["mingw64-x86-win", "debug"]
+      "name": "linux-x64-gcc-debug",
+      "displayName": "Linux x64 GCC - Debug",
+      "inherits": ["linux-x64-gcc", "debug"]
     },
     {
-      "name": "mingw64-x86-win-devel-debug",
-      "displayName": "MinGW64 x86 Windows - Developer [Debug]",
-      "inherits": ["mingw64-x86-win-devel", "debug"]
+      "name": "linux-x64-gcc-release",
+      "displayName": "Linux x64 GCC - Release",
+      "inherits": ["linux-x64-gcc", "release"]
     },
     {
-      "name": "mingw64-x64-win-debug",
-      "displayName": "MinGW64 x64 Windows [Debug]",
-      "inherits": ["mingw64-x64-win", "debug"]
+      "name": "linux-x86-gcc-debug",
+      "displayName": "Linux x86 GCC - Debug",
+      "inherits": ["linux-x86-gcc", "debug"]
     },
     {
-      "name": "mingw64-x64-win-devel-debug",
-      "displayName": "MinGW64 x64 Windows - Developer [Debug]",
-      "inherits": ["mingw64-x64-win-devel", "debug"]
+      "name": "linux-x86-gcc-release",
+      "displayName": "Linux x86 GCC - Release",
+      "inherits": ["linux-x86-gcc", "release"]
     },
 
     {
-      "name": "mingw64-x86-win-release",
-      "displayName": "MinGW64 x86 Windows [Release]",
-      "inherits": ["mingw64-x86-win", "release"]
+      "name": "win-x64-mingw64-debug",
+      "displayName": "Windows x64 MinGW64 - Debug",
+      "inherits": ["win-x64-mingw64", "debug"]
     },
     {
-      "name": "mingw64-x86-win-devel-release",
-      "displayName": "MinGW64 x86 Windows - Developer [Release]",
-      "inherits": ["mingw64-x86-win-devel", "release"]
+      "name": "win-x64-mingw64-release",
+      "displayName": "Windows x64 MinGW64 - Release",
+      "inherits": ["win-x64-mingw64", "release"]
     },
     {
-      "name": "mingw64-x64-win-release",
-      "displayName": "MinGW64 x64 Windows [Release]",
-      "inherits": ["mingw64-x64-win", "release"]
+      "name": "win-x86-mingw64-debug",
+      "displayName": "Windows x86 MinGW64 - Debug",
+      "inherits": ["win-x86-mingw64", "debug"]
     },
     {
-      "name": "mingw64-x64-win-devel-release",
-      "displayName": "MinGW64 x64 Windows - Developer [Release]",
-      "inherits": ["mingw64-x64-win-devel", "release"]
-    },
-    
-
-    {
-      "name": "gcc-x86-linux-debug",
-      "displayName": "GCC x86 Linux [Debug]",
-      "inherits": ["gcc-x86-linux", "debug"]
-    },
-    {
-      "name": "gcc-x86-linux-devel-debug",
-      "displayName": "GCC x86 Linux - Developer [Debug]",
-      "inherits": ["gcc-x86-linux-devel", "debug"]
-    },
-    {
-      "name": "gcc-x64-linux-debug",
-      "displayName": "GCC x64 Linux [Debug]",
-      "inherits": ["gcc-x64-linux", "debug"]
-    },
-    {
-      "name": "gcc-x64-linux-devel-debug",
-      "displayName": "GCC x64 Linux - Developer [Debug]",
-      "inherits": ["gcc-x64-linux-devel", "debug"]
-    },
-    
-    {
-      "name": "gcc-x86-linux-release",
-      "displayName": "GCC x86 Linux [Release]",
-      "inherits": ["gcc-x86-linux", "release"]
-    },
-    {
-      "name": "gcc-x86-linux-devel-release",
-      "displayName": "GCC x86 Linux - Developer [Release]",
-      "inherits": ["gcc-x86-linux-devel", "release"]
-    },
-    {
-      "name": "gcc-x64-linux-release",
-      "displayName": "GCC x64 Linux [Release]",
-      "inherits": ["gcc-x64-linux", "release"]
-    },
-    {
-      "name": "gcc-x64-linux-devel-release",
-      "displayName": "GCC x64 Linux - Developer [Release]",
-      "inherits": ["gcc-x64-linux-devel", "release"]
+      "name": "win-x86-mingw64-release",
+      "displayName": "Windows x86 MinGW64 - Release",
+      "inherits": ["win-x86-mingw64", "release"]
     }
   ]
 }
