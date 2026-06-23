@@ -26,7 +26,7 @@ jobs:
   create-release:
     needs: [ check-valid-branch ]
     runs-on: ubuntu-latest
-    
+
     strategy:
       fail-fast: false
       
@@ -47,6 +47,7 @@ jobs:
         with:
           tag: ${{ github.ref_name }}
           draft: 'true'
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build
         uses: VolcanusLucis/.github/.github/actions/build-cmake-project-presets@master
@@ -73,3 +74,4 @@ jobs:
         with:
           tag: ${{ github.ref_name }}
           file: 'libvlmath-${{ env.folder }}.tar.gz'
+          token: ${{ secrets.GITHUB_TOKEN }}
