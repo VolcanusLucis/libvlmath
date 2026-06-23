@@ -60,13 +60,13 @@ jobs:
       - name: Install
         if: success()
         shell: bash
-        run: cmake --install "build/${{ matrix.target }}-${{ matrix.architecture }}-${{ matrix.compiler }}" \ 
-          --prefix "install/${{ matrix.target }}-${{ matrix.architecture }}-${{ matrix.compiler }}" \
+        run: cmake --install "build/${{ matrix.target }}-${{ matrix.architecture }}-${{ matrix.compiler }}" 
+          --prefix "install/${{ matrix.target }}-${{ matrix.architecture }}-${{ matrix.compiler }}"
           --config ${{ matrix.build-type }}
 
       - name: Package
         shell: bash
-        run: tar -C install/ -czf libvlmath-${{ matrix.target }}-${{ matrix.architecture }}-${{ matrix.compiler }}.tar.gz \ 
+        run: tar -C install/ -czf libvlmath-${{ matrix.target }}-${{ matrix.architecture }}-${{ matrix.compiler }}.tar.gz
           ${{ matrix.target }}-${{ matrix.architecture }}-${{ matrix.compiler }}
 
       - name: Upload
