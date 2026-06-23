@@ -27,6 +27,18 @@ jobs:
     needs: [ check-valid-branch ]
     runs-on: ubuntu-latest
 
+    steps:
+      - name: Create Release
+        uses: VolcanusLucis/.github/.github/actions/create-release@master
+        with:
+          tag: ${{ github.ref_name }}
+          draft: 'true'
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  build-releases:
+    needs: [ check-valid-branch, create-release ]
+    runs-on: ubuntu-latest
+
     strategy:
       fail-fast: false
       
@@ -42,13 +54,6 @@ jobs:
             compiler: mingw64
 
     steps:
-      - name: Create Release
-        uses: VolcanusLucis/.github/.github/actions/create-release@master
-        with:
-          tag: ${{ github.ref_name }}
-          draft: 'true'
-          token: ${{ secrets.GITHUB_TOKEN }}
-
       - name: Build
         uses: VolcanusLucis/.github/.github/actions/build-cmake-project-presets@master
         with:
