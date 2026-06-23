@@ -36,7 +36,7 @@ jobs:
         compiler: [ mingw64, gcc ]
         build-type: [ release ]
         exclude:
-          - target: windows
+          - target: win
             compiler: gcc
           - target: linux
             compiler: mingw64
