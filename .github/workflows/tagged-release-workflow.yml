@@ -8,8 +8,22 @@ on:
       - "v*"
 
 jobs:
+  check-valid-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Valid Branch
+        run: |
+          branches=$(git branch -r --contains tags/${{ github.ref_name }})
+          for branch in $branches; do
+            if [[ $branch == "origin/master" ]]; then
+              return 0;
+            else
+              return 1;
+            fi
+          done
+
   create-release:
-    if: ${{ github.ref == 'refs/heads/master' }}
+    needs: [ check-valid-branch ]
     runs-on: ubuntu-latest
     
     strategy:
